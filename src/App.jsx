@@ -1,5 +1,6 @@
 
 import TodoList from "./TodoList.jsx";
+import TodoForm from "./TodoForm.jsx";
 import './App.css'
 
 function App() {
@@ -7,7 +8,8 @@ function App() {
   return (
     <div>
       <h1>Todo List</h1>
-      <TodoList/>
+      <TodoForm />
+      <TodoList />
     </div>
   )
 }
