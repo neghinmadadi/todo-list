@@ -14,6 +14,15 @@ function App() {
 
   const [todoList, setTodoList] = useState([]);
 
+  function addTodo({todoTitle}) {
+    const newTodo = {
+      id: Date.now(),
+      title: todoTitle,
+    }
+    // update todoList
+    setTodoList(previous => [newTodo, ...previous])
+  }
+
   return (
     <div>
       <h1>Todo List</h1>
