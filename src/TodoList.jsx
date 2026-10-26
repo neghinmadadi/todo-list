@@ -1,7 +1,7 @@
 
 import TodoListItem from "./TodoListItem.jsx"
 
-function TodoList({todoList=[]}) {
+function TodoList({todoList}) {
     
     return (
         <ul>
@@ -13,6 +13,7 @@ function TodoList({todoList=[]}) {
             ))}
         </ul>
     );
+    
 }
 
 export default TodoList;
