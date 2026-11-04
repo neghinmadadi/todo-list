@@ -1,5 +1,5 @@
 
-function TodoListItem({todo}) {
+function TodoListItem({todo, onCompleteTodo}) {
 
     return (
         <li>{todo.title}</li>
