@@ -9,7 +9,6 @@ function TodoForm({onAddTodo}) {
         event.preventDefault();
 
         onAddTodo(workingTodoTitle);
-        console.log(workingTodoTitle);
         // reset the input field
         setWorkingTodoTitle('');
         inputRef.current.focus();

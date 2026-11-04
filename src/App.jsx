@@ -22,7 +22,7 @@ function App() {
   function completeTodo(id) {
     setTodoList(previous => previous.map(todo => todo.id === id ? {...todo, isCompleted: true} : todo));
   }
-// todoList.map(todo => todo.di === id ? {...todo, isCompleted: true} : todo);
+  
   return (
     <div>
       <h1>Todo List</h1>
