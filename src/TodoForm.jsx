@@ -8,13 +8,11 @@ function TodoForm({onAddTodo}) {
     const handleAddTodo = (event) => {
         event.preventDefault();
 
-        // const todoTitle = event.target.todoTitle.value.trim();
-        // if (workingTodoTitle) {
-            onAddTodo(workingTodoTitle);
-            // reset the input field
-            setWorkingTodoTitle('');
-            inputRef.current.focus();
-        // }
+        onAddTodo(workingTodoTitle);
+        console.log(workingTodoTitle);
+        // reset the input field
+        setWorkingTodoTitle('');
+        inputRef.current.focus();
     };
     
     return (
@@ -33,6 +31,8 @@ function TodoForm({onAddTodo}) {
             <button type="submit" disabled={!workingTodoTitle.trim()}>
                 Add Todo
             </button>
+            {/**check whether input field updates as user types (don't forget to comment out after success)*/}
+            {/* <p>{workingTodoTitle ? `Adding ${workingTodoTitle.trim()}` : "Add todo above"}</p> */}
         </form>
     );
 }
