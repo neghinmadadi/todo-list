@@ -30,7 +30,7 @@ function TodoForm({onAddTodo}) {
                 onChange={(event) => setWorkingTodoTitle(event.target.value)}
                 required
             />
-            <button type="submit">
+            <button type="submit" disabled={!workingTodoTitle.trim()}>
                 Add Todo
             </button>
         </form>
