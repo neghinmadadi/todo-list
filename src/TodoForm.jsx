@@ -30,7 +30,7 @@ function TodoForm({onAddTodo}) {
             <button type="submit" disabled={!workingTodoTitle.trim()}>
                 Add Todo
             </button>
-            {/**check whether input field updates as user types (don't forget to comment out after success)*/}
+            {/**check whether input field updates as user types (commented out after success)*/}
             {/* <p>{workingTodoTitle ? `Adding ${workingTodoTitle.trim()}` : "Add todo above"}</p> */}
         </form>
     );
