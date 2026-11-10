@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import TextInputWithLabel from "../shared/TextInputWithLabel.jsx";
+import isValidTodoTitle from "../utils/todoValidation.js";
 
 function TodoForm({onAddTodo}) {
 
@@ -25,7 +26,7 @@ function TodoForm({onAddTodo}) {
                 labelText="Todo"
             />
             
-            <button type="submit" disabled={!workingTodoTitle.trim()}>
+            <button type="submit" disabled={!isValidTodoTitle(workingTodoTitle)}>
                 Add Todo
             </button>
             {/**check whether input field updates as user types (commented out after success)*/}
