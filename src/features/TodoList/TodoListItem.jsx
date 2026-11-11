@@ -24,13 +24,17 @@ function TodoListItem({todo, onCompleteTodo, onUpdateTodo}) {
 
         event.preventDefault();
 
+        if (!isValidTodoTitle(workingTitle)) {
+            return;
+        }
+
         onUpdateTodo({...todo, title: workingTitle});
         setIsEditing(false);
     }
 
     return (
         <li>
-            <form>
+            <form onSubmit={handleUpdate}>
                 {isEditing ? (
                         <>
                             <TextInputWithLabel value={workingTitle} onChange={handleEdit}/>
