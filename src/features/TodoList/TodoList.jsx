@@ -1,7 +1,7 @@
 
 import TodoListItem from "./TodoListItem.jsx"
 
-function TodoList({todoList, onCompleteTodo}) {
+function TodoList({todoList, onCompleteTodo, onUpdateTodo}) {
     // remove completed todos from todoList (keep only todos with isCompleted = false)
     const filteredTodoList = todoList.filter(todo => !todo.isCompleted)
     
@@ -14,6 +14,7 @@ function TodoList({todoList, onCompleteTodo}) {
                         key={todo.id}
                         todo={todo}
                         onCompleteTodo={onCompleteTodo}
+                        onUpdateTodo={onUpdateTodo}
                     />
                 ))}
             </ul>
@@ -22,3 +23,5 @@ function TodoList({todoList, onCompleteTodo}) {
 }
 
 export default TodoList;
+
+
