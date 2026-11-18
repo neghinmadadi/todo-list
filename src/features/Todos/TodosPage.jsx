@@ -1,6 +1,6 @@
-import { useState } from "react";
-import TodoList from "./TodoList/TodoList.jsx";
-import TodoForm from "./TodoForm.jsx";
+import { useState } from 'react';
+import TodoList from './TodoList/TodoList.jsx';
+import TodoForm from './TodoForm.jsx';
 
 function TodosPage() {
 
