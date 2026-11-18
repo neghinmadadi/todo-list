@@ -14,7 +14,7 @@ function App() {
   return (
     <>
       <Header token={token} onSetEmail={setEmail} onSetToken={setToken}/>
-      {token ? <TodosPage token={token}/> : <Logon onSetEmail={setEmail} onSetToken={setToken}/>}
+      {token ? <TodosPage token={token} /> : <Logon onSetEmail={setEmail} onSetToken={setToken} />}
     </>
   )
   
