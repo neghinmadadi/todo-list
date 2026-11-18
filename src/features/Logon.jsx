@@ -1,4 +1,4 @@
 
-function Logon() {
+function Logon({onSetEmail = () => {}, onSetToken = () => {}}) {
 
 }
