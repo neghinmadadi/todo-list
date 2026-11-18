@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function Logon({onSetEmail = () => {}, onSetToken = () => {}}) {
+function Logon({ onSetEmail, onSetToken }) {
 
     // controlled form inputs
     const [email, setEmail] = useState('');
@@ -42,7 +42,7 @@ function Logon({onSetEmail = () => {}, onSetToken = () => {}}) {
         <form onSubmit={handleSubmit}>
             
             {/* display authentication error if exists */}
-            {authError && <div>{authError}</div>}
+            {authError && <div role='alert'>{authError}</div>}
 
             <div>
                 <label htmlFor='userEmail'>Email</label>
