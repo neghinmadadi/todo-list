@@ -111,10 +111,30 @@ function TodosPage({token}) {
         }
     }
 
-    function updateTodo(editedTodo) {
-        const updatedTodos = todoList.map(todo => todo.id === editedTodo.id ? {...editedTodo} : todo);
-    
-        setTodoList(updatedTodos);
+    async function updateTodo(editedTodo) {
+        setError('');
+        // store the original todo for potential rollback
+        const originalTodo = todoList.find(todo => todo.id === editedTodo.id);
+        // Optimistically update todoList
+        setTodoList(previous => previous.map(todo => todo.id === editedTodo.id ? editedTodo : todo));
+
+        try {
+            const response = await fetch(`/api/tasks/${editedTodo.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': token,
+                },
+                credentials: 'include',
+                body: JSON.stringify({title: editedTodo.title, isCompleted: editedTodo.isCompleted})
+            })
+            if (!response.ok) {
+                throw new Error(`Failed to edit the task: ${response.status}`);
+            }
+        } catch(error) {
+            setTodoList(previous => (previous.map(todo => todo.id === editedTodo.id ? originalTodo : todo)));
+            setError(`Error: ${error.name} | ${error.message}`);
+        }  
     }
 
     return (
