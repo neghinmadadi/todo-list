@@ -139,8 +139,19 @@ function TodosPage({token}) {
 
     return (
         <div>
-        <TodoForm onAddTodo={addTodo} />
-        <TodoList todoList={todoList} onCompleteTodo={completeTodo} onUpdateTodo={updateTodo} />
+            {(error) && 
+                <>
+                    <div role='alert'>{error}</div>
+                    <button
+                        type='button'
+                        onClick={() => setError('')}
+                    >
+                        Clear Error
+                    </button>
+                </>
+            }
+            <TodoForm onAddTodo={addTodo} />
+            <TodoList todoList={todoList} onCompleteTodo={completeTodo} onUpdateTodo={updateTodo} />
         </div>
     )
 }
