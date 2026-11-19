@@ -85,8 +85,30 @@ function TodosPage({token}) {
         }
     }
 
-    function completeTodo(id) {
+   async function completeTodo(id) {
+        setError('');
+        // store the original todo for potential rollback
+        const previousTodo = todoList.find(todo => todo.id === id);
+        // optimistically update the todo as completed in the list
         setTodoList(previous => previous.map(todo => todo.id === id ? {...todo, isCompleted: true} : todo));
+
+        try {
+            const response = await fetch(`/api/tasks/${id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': token,
+                },
+                credentials: 'include',
+                body: JSON.stringify({isCompleted: true})
+            })
+            if (!response.ok) {
+                throw new Error(`Failed to update the task as completed: ${response.status}`);
+            }
+        } catch(error) {
+            setTodoList(previous => (previous.map(todo => todo.id === id ? previousTodo : todo)));
+            setError(`Error: ${error.name} | ${error.message}`);
+        }
     }
 
     function updateTodo(editedTodo) {
