@@ -139,6 +139,7 @@ function TodosPage({token}) {
 
     return (
         <div>
+            {/* add error display section */}
             {(error) && 
                 <>
                     <div role='alert'>{error}</div>
@@ -150,6 +151,8 @@ function TodosPage({token}) {
                     </button>
                 </>
             }
+            {/* add loading indicator */}
+            {isTodoListLoading && <p>Loading todos...</p>}
             <TodoForm onAddTodo={addTodo} />
             <TodoList todoList={todoList} onCompleteTodo={completeTodo} onUpdateTodo={updateTodo} />
         </div>
