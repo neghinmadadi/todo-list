@@ -12,7 +12,7 @@ function TodosPage({token}) {
             async function fetchTodos() {
                 setIsTodoListLoading(true);
                 setError('');
-                
+
                 try {
                     const params = new URLSearchParams({
                         limit: 100,
@@ -44,14 +44,45 @@ function TodosPage({token}) {
             }
     }, [token]); 
 
-    function addTodo(todoTitle) {
+    async function addTodo(todoTitle) {
+        setError('');
+
         const newTodo = {
-        id: Date.now(),
-        title: todoTitle,
-        isCompleted: false
+            id: Date.now(),
+            title: todoTitle,
+            isCompleted: false
         }
         // update todoList
         setTodoList(previous => [newTodo, ...previous]);
+
+        try {
+            const response = await fetch('/api/tasks', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': token,
+            },
+            credentials: 'include',
+            body: JSON.stringify({title: newTodo.title, isCompleted: newTodo.isCompleted})
+            })
+            if (response.ok) {
+                // create the verified todo
+                const {id, title, isCompleted} = await response.json();
+                // const verifiedTodo = {
+                //     id: data.id,
+                //     title: data.title,
+                //     isCompleted: data.isCompleted
+                // }
+                setTodoList(previous => (previous.map(todo => todo.id === newTodo.id ? {id, title, isCompleted} : todo)));
+
+            } else {
+                // setTodoList(previous => (previous.filter(todo => todo.id !== newTodo.id)));
+                throw new Error(`Failed to add the new todo: ${response.status}`);
+            }
+        } catch(error) {
+            setTodoList(previous => (previous.filter(todo => todo.id !== newTodo.id)));
+            setError(`Error: ${error.name} | ${error.message}`);
+        }
     }
 
     function completeTodo(id) {
