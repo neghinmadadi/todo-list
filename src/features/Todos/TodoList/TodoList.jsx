@@ -1,5 +1,5 @@
 
-import TodoListItem from "./TodoListItem.jsx"
+import TodoListItem from './TodoListItem.jsx';
 
 function TodoList({todoList, onCompleteTodo, onUpdateTodo}) {
     // remove completed todos from todoList (keep only todos with isCompleted = false)
