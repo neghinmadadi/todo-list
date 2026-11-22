@@ -8,40 +8,43 @@ function TodosPage({token}) {
     const [error, setError] = useState('');
     const [isTodoListLoading, setIsTodoListLoading] = useState(false);
 
+    const [sortBy, setSortBy] = useState('createdAt');
+    const [sortDirection, setSortDirection] = useState('desc');
+
     useEffect(() => {
-            async function fetchTodos() {
-                setIsTodoListLoading(true);
-                setError('');
+        async function fetchTodos() {
+            setIsTodoListLoading(true);
+            setError('');
 
-                try {
-                    const params = new URLSearchParams({
-                        limit: 100,
-                    });
-                    const response = await fetch(`/api/tasks?${params}`, {
-                        headers: {
-                            'X-CSRF-TOKEN': token,
-                        },
-                        credentials: 'include',
-                    });
-                    if (response.ok) {
-                        const data = await response.json();
-                        const fetchedTodos = data.tasks.map(({id, title, isCompleted}) => ({id, title, isCompleted}));
-                        setTodoList(fetchedTodos)
-                    } else if (response.status === 401) {
-                        throw new Error('Unauthorized Access');
-                    } else {
-                        throw new Error(`Failed to fetch todos: ${response.status}`);
-                    }
-                } catch(error) {
-                    setError(`Error: ${error.name} | ${error.message}`);
-                } finally {
-                    setIsTodoListLoading(false);
+            try {
+                const params = new URLSearchParams({
+                    limit: 100,
+                });
+                const response = await fetch(`/api/tasks?${params}`, {
+                    headers: {
+                        'X-CSRF-TOKEN': token,
+                    },
+                    credentials: 'include',
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    const fetchedTodos = data.tasks.map(({id, title, isCompleted}) => ({id, title, isCompleted}));
+                    setTodoList(fetchedTodos)
+                } else if (response.status === 401) {
+                    throw new Error('Unauthorized Access');
+                } else {
+                    throw new Error(`Failed to fetch todos: ${response.status}`);
                 }
+            } catch(error) {
+                setError(`Error: ${error.name} | ${error.message}`);
+            } finally {
+                setIsTodoListLoading(false);
             }
+        }
 
-            if (token) {
-                fetchTodos();
-            }
+        if (token) {
+            fetchTodos();
+        }
     }, [token]); 
 
     async function addTodo(todoTitle) {
