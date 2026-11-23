@@ -18,14 +18,17 @@ function TodosPage({token}) {
 
             try {
                 const params = new URLSearchParams({
+                    sortBy,
+                    sortDirection,
                     limit: 100,
                 });
-                const response = await fetch(`/api/tasks?${params}`, {
+                const options = {
                     headers: {
                         'X-CSRF-TOKEN': token,
                     },
                     credentials: 'include',
-                });
+                };
+                const response = await fetch(`/api/tasks?${params}`, options);
                 if (response.ok) {
                     const data = await response.json();
                     const fetchedTodos = data.tasks.map(({id, title, isCompleted}) => ({id, title, isCompleted}));
