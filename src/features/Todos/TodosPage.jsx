@@ -48,7 +48,7 @@ function TodosPage({token}) {
         if (token) {
             fetchTodos();
         }
-    }, [token]); 
+    }, [token, sortBy, sortDirection]); 
 
     async function addTodo(todoTitle) {
         setError('');
