@@ -31,35 +31,35 @@ function TodoListItem({todo, onCompleteTodo, onUpdateTodo}) {
         <li>
             <form onSubmit={handleUpdate}>
                 {isEditing ? (
-                        <>
-                            <TextInputWithLabel 
-                                value={workingTitle} 
-                                onChange={(event) => updateTitle(event.target.value)}
-                                elementId={`edit${todo.id}`}
-                                // labelText="Edit todo"
+                    <>
+                        <TextInputWithLabel 
+                            value={workingTitle} 
+                            onChange={(event) => updateTitle(event.target.value)}
+                            elementId={`edit${todo.id}`}
+                            // labelText="Edit todo"
+                        />
+                        <button type="button" onClick={cancelEdit}>Cancel</button>
+                        <button 
+                            type="button" 
+                            onClick={handleUpdate} 
+                            disabled={!isValidTodoTitle(workingTitle)}
+                        >
+                            Update
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <label>
+                            <input 
+                                type="checkbox"
+                                id={`checkbox${todo.id}`}
+                                checked={todo.isCompleted}
+                                onChange={() => onCompleteTodo(todo.id)}
                             />
-                            <button type="button" onClick={cancelEdit}>Cancel</button>
-                            <button 
-                                type="button" 
-                                onClick={handleUpdate} 
-                                disabled={!isValidTodoTitle(workingTitle)}
-                            >
-                                Update
-                            </button>
-                        </>
-                    ) : (
-                        <>
-                            <label>
-                                <input 
-                                    type="checkbox"
-                                    id={`checkbox${todo.id}`}
-                                    checked={todo.isCompleted}
-                                    onChange={() => onCompleteTodo(todo.id)}
-                                />
-                            </label>
-                            <span onClick={startEditing}>{todo.title}</span>
-                        </>
-                    )}
+                        </label>
+                        <span onClick={startEditing}>{todo.title}</span>
+                    </>
+                )}
             </form>
         </li>
     );
