@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import TodoList from './TodoList/TodoList.jsx';
 import TodoForm from './TodoForm.jsx';
 import SortBy from '../../shared/SortBy.jsx';
+import { useDebounce } from '../../utils/useDebounce.js';
 
 function TodosPage({token}) {
 
@@ -11,6 +12,14 @@ function TodosPage({token}) {
 
     const [sortBy, setSortBy] = useState('createdAt');
     const [sortDirection, setSortDirection] = useState('desc');
+
+    const [filterTerm, setFilterTerm] = useState('');
+    const debouncedFilterTerm = useDebounce(filterTerm, 300);
+
+    // create a handler for new filter term
+    const handleFilterChange = (newTerm) => {
+        setFilterTerm(newTerm);
+    };
 
     useEffect(() => {
         async function fetchTodos() {
