@@ -104,6 +104,7 @@ function TodosPage({token}) {
                 //     isCompleted: data.isCompleted
                 // }
                 setTodoList(previous => (previous.map(todo => todo.id === newTodo.id ? {id, title, isCompleted} : todo)));
+                invalidateCache();
 
             } else {
                 // setTodoList(previous => (previous.filter(todo => todo.id !== newTodo.id)));
@@ -134,6 +135,8 @@ function TodosPage({token}) {
             })
             if (!response.ok) {
                 throw new Error(`Failed to update the task as completed: ${response.status}`);
+            } else {
+                invalidateCache();
             }
         } catch(error) {
             setTodoList(previous => (previous.map(todo => todo.id === id ? previousTodo : todo)));
@@ -160,6 +163,8 @@ function TodosPage({token}) {
             })
             if (!response.ok) {
                 throw new Error(`Failed to edit the task: ${response.status}`);
+            } else {
+                invalidateCache();
             }
         } catch(error) {
             setTodoList(previous => (previous.map(todo => todo.id === editedTodo.id ? originalTodo : todo)));
