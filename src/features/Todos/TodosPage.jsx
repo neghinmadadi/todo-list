@@ -3,6 +3,7 @@ import TodoList from './TodoList/TodoList.jsx';
 import TodoForm from './TodoForm.jsx';
 import SortBy from '../../shared/SortBy.jsx';
 import { useDebounce } from '../../utils/useDebounce.js';
+import FilterInput from '../../shared/FilterInput.jsx';
 
 function TodosPage({token}) {
 
@@ -62,7 +63,7 @@ function TodosPage({token}) {
         if (token) {
             fetchTodos();
         }
-    }, [token, sortBy, sortDirection]); 
+    }, [token, sortBy, sortDirection, debouncedFilterTerm]); 
 
     async function addTodo(todoTitle) {
         setError('');
@@ -174,6 +175,7 @@ function TodosPage({token}) {
             {/* add loading indicator */}
             {isTodoListLoading && <p>Loading todos...</p>}
             <SortBy sortBy={sortBy} sortDirection={sortDirection} onSortByChange={setSortBy} onSortDirectionChange={setSortDirection}/>
+            <FilterInput filterTerm={filterTerm} onFilterChange={handleFilterChange}/>
             <TodoForm onAddTodo={addTodo} />
             <TodoList todoList={todoList} onCompleteTodo={completeTodo} onUpdateTodo={updateTodo} />
         </div>
