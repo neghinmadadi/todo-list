@@ -191,7 +191,7 @@ function TodosPage({token}) {
             <SortBy sortBy={sortBy} sortDirection={sortDirection} onSortByChange={setSortBy} onSortDirectionChange={setSortDirection}/>
             <FilterInput filterTerm={filterTerm} onFilterChange={handleFilterChange}/>
             <TodoForm onAddTodo={addTodo} />
-            <TodoList todoList={todoList} onCompleteTodo={completeTodo} onUpdateTodo={updateTodo} />
+            <TodoList todoList={todoList} onCompleteTodo={completeTodo} onUpdateTodo={updateTodo} dataVersion={dataVersion} />
         </div>
     )
 }
