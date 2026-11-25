@@ -70,6 +70,14 @@ function TodosPage({token}) {
         }
     }, [token, sortBy, sortDirection, debouncedFilterTerm]);
 
+    // create a function to reset all the filters
+    const handleResetFilters = () => {
+        setFilterTerm('');
+        setSortBy('createdAt');
+        setSortDirection('desc');
+        setFilterError('');
+    };
+
     // create a function to invalidate cache
     const invalidateCache = useCallback(() => {
         console.log("Invalidating memo cache after todo mutation");
@@ -183,15 +191,33 @@ function TodosPage({token}) {
         <div>
             {/* add error display section */}
             {(error) && 
-                <>
-                    <div role='alert'>{error}</div>
+                <div>
+                    <p>{error}</p>
                     <button
                         type='button'
                         onClick={() => setError('')}
                     >
                         Clear Error
                     </button>
-                </>
+                </div>
+            }
+            {/* filter error section */}
+            {(filterError) && 
+                <div>
+                    <p>{filterError}</p>
+                    <button
+                        type='butto'
+                        onClick={() => setFilterError('')}
+                    >
+                        Clear Filter Error
+                    </button>
+                    <button
+                        type='button'
+                        onClick={handleResetFilters}
+                    >
+                        Reset Filters
+                    </button>
+                </div>
             }
             {/* add loading indicator */}
             {isTodoListLoading && <p>Loading todos...</p>}
