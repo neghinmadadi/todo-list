@@ -19,6 +19,8 @@ function TodosPage({token}) {
 
     const [dataVersion, setDataVersion] = useState(0);
 
+    const [filterError, setFilterError] = useState('');
+
 
     useEffect(() => {
         async function fetchTodos() {
@@ -45,14 +47,19 @@ function TodosPage({token}) {
                 if (response.ok) {
                     const data = await response.json();
                     const fetchedTodos = data.tasks.map(({id, title, isCompleted}) => ({id, title, isCompleted}));
-                    setTodoList(fetchedTodos)
+                    setTodoList(fetchedTodos);
+                    setFilterError('');
                 } else if (response.status === 401) {
                     throw new Error('Unauthorized Access');
                 } else {
                     throw new Error(`Failed to fetch todos: ${response.status}`);
                 }
             } catch(error) {
-                setError(`Error: ${error.name} | ${error.message}`);
+                if (debouncedFilterTerm || sortBy !== 'createdAt' || sortDirection !== 'desc') {
+                    setFilterError(`Error filtering/sorting todos: ${error.message}`);
+                } else {
+                    setError(`Error fetching todos: ${error.message}`);
+                }
             } finally {
                 setIsTodoListLoading(false);
             }
