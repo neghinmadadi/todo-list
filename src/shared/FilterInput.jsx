@@ -16,3 +16,4 @@ function FilterInput({filterTerm, onFilterChange}) {
 }
 
 export default FilterInput;
+

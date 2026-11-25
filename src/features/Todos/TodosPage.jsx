@@ -27,11 +27,15 @@ function TodosPage({token}) {
             setError('');
 
             try {
-                const params = new URLSearchParams({
+                const paramsObject = {
                     sortBy,
                     sortDirection,
                     limit: 100,
-                });
+                }
+                if (debouncedFilterTerm) {
+                    paramsObject.find = debouncedFilterTerm;
+                }
+                const params = new URLSearchParams(paramsObject);
                 const options = {
                     headers: {
                         'X-CSRF-TOKEN': token,
