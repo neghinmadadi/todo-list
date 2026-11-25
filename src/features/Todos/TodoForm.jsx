@@ -36,9 +36,3 @@ function TodoForm({onAddTodo}) {
 }
 
 export default TodoForm;
-
-
-// // some tests to see the event obj
-// console.log("event obj: ", event);
-// console.log("event target: ", event.target);
-// console.log("input value: ", event.target.todoTitle.value);

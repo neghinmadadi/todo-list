@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import TodoList from './TodoList/TodoList.jsx';
 import TodoForm from './TodoForm.jsx';
 import SortBy from '../../shared/SortBy.jsx';
-import { useDebounce } from '../../utils/useDebounce.js';
+import useDebounce from '../../utils/useDebounce.js';
 import FilterInput from '../../shared/FilterInput.jsx';
 
 function TodosPage({token}) {
@@ -32,7 +32,7 @@ function TodosPage({token}) {
                     sortBy,
                     sortDirection,
                     limit: 100,
-                }
+                };
                 if (debouncedFilterTerm) {
                     paramsObject.find = debouncedFilterTerm;
                 }
@@ -80,7 +80,6 @@ function TodosPage({token}) {
 
     // create a function to invalidate cache
     const invalidateCache = useCallback(() => {
-        console.log("Invalidating memo cache after todo mutation");
         setDataVersion(previous => previous + 1);
     }, []);
 
@@ -102,27 +101,21 @@ function TodosPage({token}) {
 
         try {
             const response = await fetch('/api/tasks', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': token,
-            },
-            credentials: 'include',
-            body: JSON.stringify({title: newTodo.title, isCompleted: newTodo.isCompleted})
-            })
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': token,
+                },
+                credentials: 'include',
+                body: JSON.stringify({title: newTodo.title, isCompleted: newTodo.isCompleted})
+            });
             if (response.ok) {
                 // create the verified todo
                 const {id, title, isCompleted} = await response.json();
-                // const verifiedTodo = {
-                //     id: data.id,
-                //     title: data.title,
-                //     isCompleted: data.isCompleted
-                // }
                 setTodoList(previous => (previous.map(todo => todo.id === newTodo.id ? {id, title, isCompleted} : todo)));
                 invalidateCache();
 
             } else {
-                // setTodoList(previous => (previous.filter(todo => todo.id !== newTodo.id)));
                 throw new Error(`Failed to add the new todo: ${response.status}`);
             }
         } catch(error) {
@@ -147,7 +140,7 @@ function TodosPage({token}) {
                 },
                 credentials: 'include',
                 body: JSON.stringify({isCompleted: true})
-            })
+            });
             if (!response.ok) {
                 throw new Error(`Failed to update the task as completed: ${response.status}`);
             } else {
@@ -175,7 +168,7 @@ function TodosPage({token}) {
                 },
                 credentials: 'include',
                 body: JSON.stringify({title: editedTodo.title, isCompleted: editedTodo.isCompleted})
-            })
+            });
             if (!response.ok) {
                 throw new Error(`Failed to edit the task: ${response.status}`);
             } else {
@@ -192,9 +185,9 @@ function TodosPage({token}) {
             {/* add error display section */}
             {(error) && 
                 <div>
-                    <p>{error}</p>
+                    <p role="alert">{error}</p>
                     <button
-                        type='button'
+                        type="button"
                         onClick={() => setError('')}
                     >
                         Clear Error
@@ -204,15 +197,15 @@ function TodosPage({token}) {
             {/* filter error section */}
             {(filterError) && 
                 <div>
-                    <p>{filterError}</p>
+                    <p role="alert">{filterError}</p>
                     <button
-                        type='butto'
+                        type="button"
                         onClick={() => setFilterError('')}
                     >
                         Clear Filter Error
                     </button>
                     <button
-                        type='button'
+                        type="button"
                         onClick={handleResetFilters}
                     >
                         Reset Filters
