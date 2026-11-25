@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import TodoList from './TodoList/TodoList.jsx';
 import TodoForm from './TodoForm.jsx';
 import SortBy from '../../shared/SortBy.jsx';
@@ -17,10 +17,8 @@ function TodosPage({token}) {
     const [filterTerm, setFilterTerm] = useState('');
     const debouncedFilterTerm = useDebounce(filterTerm, 300);
 
-    // create a handler for new filter term
-    const handleFilterChange = (newTerm) => {
-        setFilterTerm(newTerm);
-    };
+    const [dataVersion, setDataVersion] = useState(0);
+
 
     useEffect(() => {
         async function fetchTodos() {
@@ -63,7 +61,18 @@ function TodosPage({token}) {
         if (token) {
             fetchTodos();
         }
-    }, [token, sortBy, sortDirection, debouncedFilterTerm]); 
+    }, [token, sortBy, sortDirection, debouncedFilterTerm]);
+
+    // create a function to invalidate cache
+    const invalidateCache = useCallback(() => {
+        console.log("Invalidating memo cache after todo mutation");
+        setDataVersion(previous => previous + 1);
+    }, []);
+
+    // create a handler for new filter term
+    const handleFilterChange = (newTerm) => {
+        setFilterTerm(newTerm);
+    };
 
     async function addTodo(todoTitle) {
         setError('');
